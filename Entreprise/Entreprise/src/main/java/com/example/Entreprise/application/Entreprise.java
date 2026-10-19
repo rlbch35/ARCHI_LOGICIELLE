@@ -18,6 +18,13 @@ public Entreprise(int id, String nom) {
 this.id = id;
 this.nom = nom;
 }
+
+public Entreprise(int id, String nom, List<Integer> idEmployes) {
+this.id = id;
+this.nom = nom;
+this.idEmployes = idEmployes;
+}
+
 public int getId() {
 return id;
 }
