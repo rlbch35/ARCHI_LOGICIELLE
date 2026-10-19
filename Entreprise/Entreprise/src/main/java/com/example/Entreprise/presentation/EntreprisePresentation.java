@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.Entreprise.application.EmployeDAO;
 import com.example.Entreprise.application.Entreprise;
 import com.example.Entreprise.application.EntrepriseService;
 
@@ -23,15 +24,27 @@ private EntrepriseService service;
 public List<EntrepriseDTO> getEntreprises(){
 //ne pas oublier de mapper les données :)
 EntrepriseMapper em = new EntrepriseMapper();
+//on récupère toutes les entreprises
 List<Entreprise> entreprisesBdd = service.getEntreprise();
+//cette liste nous sert d'objet de retour
 List<EntrepriseDTO> entreprisesRetournees = new ArrayList<>();
 //dans cette partie, on transforme les données en EntrepriseDTO
 for(Entreprise e : entreprisesBdd){
-entreprisesRetournees.add(em.mapEntrepriseToEntrepriseDTO(e));
+EntrepriseDTO entrepriseAAjouter = new EntrepriseDTO();
+entrepriseAAjouter = em.mapEntrepriseToEntrepriseDTO(e);
+//partie Employes, on va interroger le module Employe
+//et mettre à dispo les infos employés dans chaque entreprise
+if(!e.getIdEmployes().isEmpty()){
+//ici onfait l'appel au module Employe via la couche application
+List<EmployeDAO> employes = service.getEmployes(e.getIdEmployes());
+//on map les employés dans l'objet de retour associé et on l'ajouteà son entreprise
+entrepriseAAjouter.setEmployes(em.mapEmployeDAOToEmployeDTO(employes));
+}
+//on ajoute l'entreprise mappée dans le résultat de la requête
+entreprisesRetournees.add(entrepriseAAjouter);
 }
 return entreprisesRetournees;
 }
-
 
 
 //verbe de création

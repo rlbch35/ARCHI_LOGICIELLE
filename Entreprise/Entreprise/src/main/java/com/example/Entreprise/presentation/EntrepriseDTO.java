@@ -1,13 +1,22 @@
 package com.example.Entreprise.presentation;
 
+import java.util.List;
+
 public class EntrepriseDTO {
 private int id;
 private String nom;
+private List<EmployeDTO> employes;
+
 public EntrepriseDTO() {}
-public EntrepriseDTO(int id, String nom) {
+
+
+public EntrepriseDTO(int id, String nom, List<EmployeDTO> employes) {
 this.id = id;
 this.nom = nom;
+this.employes = employes;
 }
+
+
 public int getId() {
 return id;
 }
@@ -20,4 +29,12 @@ return nom;
 public void setNom(String nom) {
 this.nom = nom;
 }
+
+public List<EmployeDTO> getEmployes() {
+return employes;
+}
+public void setEmployes(List<EmployeDTO> employes) {
+this.employes = employes;
+}
+
 }
